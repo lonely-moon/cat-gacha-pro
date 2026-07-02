@@ -1,570 +1,819 @@
-// ページ番号: 1 / 1
+//Flutterの基本部品の組み込み
 import 'package:flutter/material.dart';
+//意味ーFlutterで画面に色を塗ったり、図形を描いたりアプリの形を作ったりするために必要な
+//google公式の１Materialという基本デザイン部品のセットをこのファイルに読みこむ
+// 書く場所ーコード全体の一番最初に書く
+//どんな時に使うー１からflutterでアプリを作る時、絶対1行目に来るもの
 
+import 'package:flutter/services.dart';
+//,キーボード入力するためのパッケージを追加
+
+//sinやcosなどの数字関数（パッケージ）をプログラム内でdart_mathという識別名で使用できるように
+//定義する必要がある
+import 'dart:math' as dart_math;
+
+//アプリ全体の起動スイッチ(開始）
 void main() {
-  runApp(const MyApp());
+  //このアプリがスマートフォンやブラウザを起動した瞬間、コンピュータが一番最初に実行する
+  //プログラムの出発点（メイン関数)の部屋をここに開きます
+
+  //使い方 void main() {と書き、この後に起動したいアプリの名前を書き込む
+  //書く順番ー部品の読み込み(import)のすぐ下、3行目に書く
+  //どんな時に使うのかーアプリを立ち上げたときに最初に何を動かすかをコンピュータに指示を
+  //すべてのflutterアプリので必ず、１回だけ書く
+
+  runApp(const DrivingSimApp());
 }
+//意味ーrunApp(アプリを走らせる）という命令を使い、これから下に自分で作成するDrivingSimApp
+//という名前のシュミレーターアプリを画面全体に起動します　最後の}で起動スイッチの部屋を閉じます
+//使い方ーvoid main() {と書き、この後に起動したいアプリの名前を書き込む
+//書く順番ーvoid mainのすぐ下
+//どんな時に使うかー自分で作ったアプリの画面をスマホやPCの画面に実際に映し出してスタートさせたい
+//時に必ず使います
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DrivingSimApp extends StatelessWidget {
+  //意味ーDrivingSimAppという名前の画面の構造が途中で勝手に変わらない「アプリ全体の土台（外枠）
+  //となる設計図を作成し始める
+  //使い方ーclass クラス名　extends StatelessWidget {と書き、この波かっこ{の中にアプリの
+  //タイトルやテーマ色などの初期設定を書き込む
+  //書く順番-main（）の部屋が閉じたすぐ下に書き込む
+  //どんな時に使うのかーアプリ全体の名前や最初に開くページがどこなのかという
+  //全体の設計図・ルールを用意する時に必ず使う
 
+  //----設計図のバグを防ぐためのお守り設定ーー
+  const DrivingSimApp({super.key});
+  //意味ーFlutterのシステムがこの設計図を素早くエラーなく、処理するためのキー（識別子)
+  //と呼ばれる暗号を自動で裏側に引き渡す設定
+  //使い方ークラス（設計図）の名前のすぐ下にインデント（スペース2つ）空けてこの通りにおまじない
+  //として記述
+  //書く順番ーclass DrivingSinmApp..のすぐ下にかく
+  //どんな時に使うのかーFlutterで新しい画面や部品（Widget)の設計図を作る時にアプリの
+  //動作を安定させるために必ずセットでかく
+
+  //--画面の組み立て命令(開始）
   @override
   Widget build(BuildContext context) {
+    //意味ーFlutterに対して「ここから下に書く設定の通りに、画面を具体的に組み立てて
+    //スマートフォンに映し出しなさいと命令する合図
+
+    //使い方ーこの行を書いた後に、具体的なアプリの中身（タイトルや中身のページ）をかき始めます
+    //書く順番ーお守り設定(const DtivingSimApp..)のすぐ下にかく
+    //どんな時に使うのかー画面に色を塗ったり、文字をだしたりする「具体的な見た目の処理」
+    //をスタートさせる時に必ず使う
+
+    //--アプリの基本パッケージの呼び出しーー
     return MaterialApp(
-      title: '自動拡張マインドマップ・学習総合プラットフォーム',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: const MainDashboardApp(),
+      //意味ースマートフォンアプリとして動かすために必要な画面全体の背景や文字のフォント、ページの
+      //切り替えなどのナビゲーションの仕組みなどをまとめて管理する「アプリの基本パッケージ」
+      //使い方-return MaterialApp(と書き、このなかにタイトルやテーマ色、最初に表示する中身の
+      //ページを記述する
+      //Widget build...のすぐ下に書く
+      //どんな時に使うのかーアプリ全体の共通のルール（スマートフォンの上のバーに文字を出すかなど）
+      //などをまとめて決めたい時に、1番外枠の部品として使う
+      title: 'ペーパードライバー運転シュミレーター',
+      debugShowCheckedModeBanner: false,
+      //意味ーアプリのシステムの名前を登録し、画面の右上に自動で出てしまう
+      //[DEBUG]という開発中の邪魔な赤い帯（DEBUGマーク）を非表示(false)にします
+      //使い方ーMaterialAppの設定項目として設定値を,で区切って書き込みます
+      //書く順番ーreturn MAterialAPpの設定項目のすぐ下にかく
+      //どんな時に使うのかーアプリの名前を正しく設定し、シュミレーター画面の見た目をスッキリとキレイに
+      //できる
+
+      //--最初に表示するメイン運転画面の指定と設計図の終了
+      home: const SimulationScreen(),
     );
   }
 }
+//意味ーアプリが起動した時に、最初に目の前に表示する中身の画面としてこれから下に作る
+//Simulation（シュミレーション画面）を指定します。ここでアプリ全体の枠組みの設計図を閉じます
+//使い方ーhome:の後ろに表示したい画面の名前を書き、最後を);}}で膝下入り閉じる
+//書く順番ーデバック表示の設定のすぐ下に書く
+//どんな時に使うか-アプリを立ち上げた瞬間、ユーザーに1番最初に見せたいページ（今回は運転画面）
+//を指定するときに必ず使います
 
-// マインドマップ上の1つの要素（カード）をデータとして定義するクラス
-class MindMapNode {
-  final String title; // カードのタイトル
-  final String description; // 詳細な解説文（意味・役割・注意点など）
-  final Offset position; // 画面に配置する位置座標（X, Y）
-  final Color color; // カードの縁取り（テーマ）カラー
+//--動くメイン画面の設計図（開始）
+class SimulationScreen extends StatefulWidget {
+  //意味ーSimulationScreen(シュミレーション画面）という名前の車の移動や視点切り替えなど
+  //画面の表示内容がリアルタイムで変化する　特別な部品の設計図を作成し始めます
+  //使い方-class クラス名 extends StatefulWidget {と書き、このなかに画面の初期状態を
+  //管理する命令を書き込む
+  //どんな時に使うかーゲームやシュミレーターのようにプレーヤーの操作によって画面が常に激しく
+  //動き回るページを作るときに必ず使います
 
-  MindMapNode({
-    required this.title,
-    required this.description,
-    required this.position,
-    required this.color,
-  });
-}
+  //--動く画面のバグを防ぐためのお守り設定
+  const SimulationScreen({super.key});
+  //意味ーFlutterのシステムがこの動く画面の設計図をエラーなく高速に処理するための（識別子）を
+  //裏側で引き渡す設定
+  //使い方ークラスの名前のすぐ下に、インデント（スペース2つ）を空けてこの通りにおまじないとして
+  //記述
+  //書く順番ーclass SimulatiionScreen...のすぐ下に書く
+  //どんな時に使うのかー動く画面（StatefulWidget)を作るときに動作を安定させててバグを防ぐために
+  //必ずセットで書く
 
-// メインのダッシュボード画面（StatefulWidget）
-class MainDashboardApp extends StatefulWidget {
-  const MainDashboardApp({super.key});
-
+  //--画面の状態を管理する「中身の部屋」との接続
   @override
-  State<MainDashboardApp> createState() => _MainDashboardAppState();
+  State<SimulationScreen> createState() => _SimulationScreenState();
 }
+//意味ーこの画面で使う「車のスピードや位置などのデータ」を実際に計算して管理するためのもう1つの
+//隠し部屋(_SimulationScreen)を新しく作って合体させなさいという命令。ここで1度設計図とじる
+//使い方ーcreateState()　=> 状態を管理するクラス名();の形で記述し、最後を}で閉じます
+//書く順番ーお守り設定(const SimulationScreen...)のすぐ下に描きます
+//どんな時に使うのかーFlutterの仕様においてユーザー操作によって描画内容を動的に書き換える画面
+//(StatefulWidget)を構築する際に、データ管理用のクラスと画面表示用のクラスを結合させるために
+//必ず、記述する
 
-// 画面の状態（データとロジック）を管理するクラス
-class _MainDashboardAppState extends State<MainDashboardApp>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+//--データ計算と画面描画を行う[Stateクラスの定義（開始）
+class _SimulationScreenState extends State<SimulationScreen>
+  //意味ー12で設定した、画面の状態変更とデータ計算を実際に担当する_SimulationScreenState
+  //という名前のクラスの定義を開始する　このクラスの中に、車の物理パラメータとなる変数や
+  //計算ロジックをカプセル化して記述する
+  //使い方ーclass クラス名　extends State<対象となるStatefulWidgetクラス名> {と記述し
+  //{を開く
+  //書く順番ー12番で前のクラスが終了したしたすぐ下に記述する
+  //どんな時に使うーアプリないの特定の画面においてmジェン数の値の更新（アクセルによる速度変化
+  //ハンドルの角度強化など）とそれに伴う画面の再描画(リビルド)を制御する領域を定義する時に
+  //必ず使用
 
-  // ① コード解析用の変数・コントローラー
-  final TextEditingController _codeController = TextEditingController();
-  String _analysisResult = '';
+  //ーー車両のX座標（水平方向の位置)変数の定義
+  double carX = 0.0;
+  //意味ー2次元または3次元空間にのける車両の水平方向（左右）の現在位置を保持するための64bit
+  //浮動小数点数型(double型)の変数を定義し、初期値として0.0を代入します
+  //使い方ーdouble =変数名=初期値;と記述し末尾にセミコロン(;)をつけます
+  //どんな時に使いますかー車両が左右に移動した結果の座標データをメモリ上に記憶させ、描画システム
+  //へ位置情報を引き渡すために使用します。
 
-  // ② AIサイドバー用の変数・コントローラー
-  final TextEditingController _aiQueryController = TextEditingController();
-  String _aiResponseText = 'AIアシスタントへ質問を入力してください。';
-  String _selectedAI = 'Gemini';
+  //車両のY座標（垂直方向の位置）変数の定義
+  double carY = -150.0;
+  //意味ー空間における車両の「垂直方向（前後・上下）の現在位置」を保持するためのdouble型変数を
+  //定義し、初期値として-150.0を代入して画面の」手前側に位置付けます
+  //使い方ーdouble 変数名　= 初期値;の形式で記述
+  //どんな時に使うのかー車両が前進または後退した際の進捗距離（現在位置）をメモリ上に保持し、
+  //描画を更新するために使用するために使用する
 
-  // ③ メモ帳用のコントローラー・状態管理
-  final TextEditingController _memoController = TextEditingController();
-  String _memoSaveStatus = '未保存';
+  //車両の進行方向（回転角度）変数の定義
+  double carAngle = 0.0;
+  //車両が向いている方位角を保持するためのdouble型変数
+  //単位はラジアン（孤度法）を使用し、初期値の0.0は回転していない（基準方向を向いた）
+  //状態を示します
+  //使い方ー同じくdouble 変数名＝　初期値;の形式で記述する
+  //書く順番ー15番のdouble carY=-150.0;のすぐした
+  //どんな使い方ーハンドル操作によって車両の向きが変わる量を」計算し、進行方向への
+  //前進ベクトルを算出する幾何学計算に使用する
 
-  // ④ 自動拡張マインドマップ用の変数・コントローラー
-  final TextEditingController _mindMapInputController = TextEditingController();
-  List<MindMapNode> _mindMapNodes = [];
+  //車両の現在の速度変数の定義
+  double carSpeed = 0.0;
+  //意味ー車両が1フレーム（または単位時間）あたりに進む移動量を保持するためのdouble型変数
+  //初期値は0.0(停止状態）とする
+  //使い方ーdouble　変数名＝初期値;の形式で記述
+  //書く順番ー16番のdouble carAngle=0.0
+  //どんな時に使うのかーアクセル入力による加速度の計算、および摩擦やブレーキによる減速度の減算
+  //算出し、現在の移動の勢いを管理するために使用
+
+  //視点状態を管理するフラグ（真偽値）変数の定義
+  bool isFirstPerson = false;
+  //カメラの描画モードを識別するための真（true)または偽(false)のいずれの状態のみを持つ真偽型
+  //bool型の変数を定義する。初期値は三人称視点を示すfalseとする
+  //書く順番ーdouble carSpeed =0.0のすぐ下
+  //どんな時に使うかープログラム内で一人称視点（VRモード）と三人称視点の2つの描画を処理を条件
+  //分岐によって切り替える際の判定基準として使用
+
+
+  //キーボードの押下状態を保持する配列変数（Map型）の定義
+  Map<LogicalKeyboardKey, bool> keysPressed = {};
+  //意味ーキーボードの特定のキーが現在押されているか(true)、離されているか(false)の状態を
+  //ペアにしてメモリ上に保持するための、空の連想配列（Map型）を生成する
+  //左側にキーの識別データ（LogicalKeyboardKey)、右側にそのキーの状態を真偽値（bool)で格納
+  //使い方-Map<キーの型,真偽値の型>　変数名 = {};とかき、末尾にセミコロン必須
+  //どんな時に使うー複数のキーが同時に押し下がられている状態（前進キーと右旋回キーが同時に
+  //押されている状態など）をもれなく検知し、並行して処理を実行したい時に使用する
+
+  //キーボードの入力イベントを検知して実行する関数の定義（開始）
+  void handleKeyEvent(KeyEvent event) {
+  //意味ーOSやブラウザから「キーボードのキーが押された」「離された」という物理的なイベント
+  //(KeyEvent)を引数として受け取り、内部のデータ処理を行うための戻り値のない関数(void)の定義
+  //を開始する
+  //使い方ーvoid 関数名（引用の型　引数名) {と描く
+  //どんな時に使うのかーアプリの実行中にユーザーがキーボードに対して行ったすべての操作を
+  //リアルタイムで監視し、プログラム内のデータに即座に反映させたい時に必ず使用します
+
+  //キーが現在押されている状態（KeyDown,KeyRepeat)の条件分岐（開始）
+  if (event is KeyDownEvent || event is KeyRepeatEvent) {
+    //意味ー発生したキーボードのイベントの型が、新しくキーが押し下げられた瞬間（KeyDownEvent)
+    //であるか、または(||)「キーが長押しされ続けている状態（KeyRepeatEvent)であるかを条件
+    //分岐（if文)によって判定します
+    //使い方ーif(条件1 ||条件2) {の形式で記述し、いずれかの条件が成立が整列した成立した場合
+    //に波括弧（{)の中を実行します
+    //どんな時に使うのかーキーボードのボタンが下に押し込まれてる最中のみ、特定の数値計算（加速
+    //や旋回など）を継続して実行させたい時の条件判定に使用する
+
+    //配列への「押下中(true)」のデータ登録処理
+    keysPressed[event.logicalKey] =true;
+  }
+    //意味ー現在イベントが発生している具体的なキーの識別データ
+    //(event.lohicalKey)を特定し、ここ（Map<LogicalKeyboardKey, bool> 
+    //keysPressed = {};)で定義した配列の該当するキーの値をtrue(押下中である）に上書き更新
+    //する
+    //使い方ー配列名[キーの識別データ]=値;と描き、末尾にセミコロン(;)を記述します
+    //どんな時に使うのかー特定のキーが現在進行形で押されていると言う事実をプログラム内のデータ
+    //として保持、確定させることができる時に使用する
+
+    //キーが離された状態(KeyUp)の条件分岐（開始）
+     else if (event is KeyUpEvent) {
+    //意味ー前述の押し下げられている状態はない場合で、かつ発生したイベントの型が押し下げられていた
+    //キーが物理的に指から離された瞬間(KeyUpEvennt)であるかどうかを判定します
+    //どんな時に使うのかーユーザーが操作キーから指を離した瞬間に特定の数値を計算（加速や旋回など）
+    //の処理を即座に停止左折ための条件判定に使用する
+
+
+    //配列への解除（false)のデータ登録処理と条件分岐の終了
+    keysPressed[event.logicalKey] =false;
+  }
+
+  //指が離された具体的なキーの識別データを特定し、配列keyPressedの中の該当するキーの値をfalse
+  //(押されていない状態)に上書き更新する
+  //どんな時に使うのかーキーの入力が途絶えたことをプログラム側に認識させ、車両の移動処理や
+  //旋回処理の加算を停止させる時に使用
 
   @override
   void initState() {
     super.initState();
-    // 3つのタブ（マインドマップ、コード解析、メモ帳）を制御します
-    _tabController = TabController(length: 3, vsync: this);
-    // 起動時にデフォルトで「Flutter」のマインドマップを展開します
-    _generateMindMap('Flutter');
-  }
+    //意味ーこの画面(SimulationScreen)がアプリ上に生成された瞬間に、1度だけ自動的に実行
+    //される初期化関数iniStateをoverride(再定義)する
+    //使い方ー@overrideの真下にvoid iniState() {を書き、内部でsuper.iniState();を呼ぶ
+    //どんな時に使うのかー画面が表示された直後に、アニメーションの開始、タイマーの起動、データの
+    //初期読み込みなどを一度だけ、実行したいときに必ず使用する
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _codeController.dispose();
-    _aiQueryController.dispose();
-    _memoController.dispose();
-    _mindMapInputController.dispose();
-    super.dispose();
-  }
+    Stream.periodic(const Duration(milliseconds:16)).listen((_) {
+      //意味ー16ミリ秒(0.016秒）の間隔(Duration)ごとに、定期的な信号を発生させるストリーム
+      //(Stream .periodic)を作成し、その信号を監視し続ける処理を開始する
+      //これにより、1秒間に約60回の頻度で内部の計算処理が実行される　引数の(_)は、渡される
+      //周期カウントを無視することを意味
+      //使い方ーStream.periodic(間隔).listen((_)と記述し、波かっこ({)の中毎フレーム
+      //実行したい処理を書く
+      //どんな時に使うのかーゲームやシュミレーターにおいて画面の描画更新や物理演算（位置や速度の計算）
+      //を一定の時間感覚で絶え間なくループ実行させたい時に使用
 
-  // 【中核システム】入力された専門用語からマインドマップを自動拡張する関数
-  void _generateMindMap(String keyword) {
-    String target = keyword.trim();
-    if (target.isEmpty) return;
+      setState(()  {
+        //意味ーFlutterのシステムに対して、この波かっこ({)の中で変数の値を書き換えるので
+        //変更が終わったら、即座に画面全体を再描画（リビルド）しなさいと要求する関数(setState)
+        //呼び出す
+        //使いかたーsetState(() {と記述し、この中に変化させる変数の計算方式
+        //どんな時に使うのかーメモリ用の変数（車速や座標など）が書き変わった事実を実際の
+        //スマートフォンの画面表示にリアルタイムで反映させたい時に必ず使用する
 
-    setState(() {
-      _mindMapNodes = [];
+        //上矢印キー（前進）が押されている場合の加速計算
+        if (keysPressed[LogicalKeyboardKey.arrowUp] == true) {
+          carSpeed += 0.2;
+        }
+        //意味ー配列keysPressedを確認し、キーボードの上矢印キー(arrowUp)の割り当てが
+        //true（押下中）であれば現在の車両速度を（carSpeed)に0.2を加速（加算）する
+        //使い方ーif (配列[キーの種類]==true) {変数 +=加算値; } の形式で記述
+        //どんな時に使うのかーユーザによる前進操作入力を検知し、車両の移動速度を段階的に上昇
+        //させたいときに使用
 
-      // ① 中心ノード（ユーザーが入力したキーワードをど真ん中に配置）
-      _mindMapNodes.add(
-        MindMapNode(
-          title: '【中心】 $target',
-          description: '入力されたこの専門用語を、周囲の4つの枝葉（意味・役割・注意点・例え）で徹底的に構造分解します。',
-          position: const Offset(300, 220), // ほぼ中央の座標
-          color: Colors.blueAccent,
-        ),
-      );
+        //下矢印キー（後退・ブレーキ)が押されている場合の減速計算
+        if (keysPressed[LogicalKeyboardKey.arrowDown] == true) {
+          carSpeed -= 0.2;
+        }
+        //意味ーキーボードの下矢印キー(arrowDown)の割り当てがtrue（押下中)であれば
+        //現在の車両速度(carSpeed)から0.2を減算（減速、またはバック）する
+        //使いかたーif条件文を用いて減算処理(-=)を行います
+        //どんな時に使うのかーユーザーによるブレーキ操作または後退操作入力を検知し、車両速度
+        //を落とす、あるいは負の速度（バック）に移行させたい時に使用する
 
-      // デフォルトの解説文章テンプレート
-      String definition =
-          '意味（概念）：IT開発において、特定の処理や仕組みを効率よく実現するために定義された重要キーワードです。';
-      String role = '役割（システム）：プログラムのコピペを減らし、バグを防いでチーム全体の開発再現性を引き上げるために存在します。';
-      String caution =
-          '注意点（つまずき処）：文字だけで丸暗記しようとせず、このマップのように視覚的な「繋がり」を意識して覚えるのがコツです。';
-      String example =
-          '例え話（身の回り）：コンセントの穴の形が全国で統一されているから、どの家電でも買ってすぐ使えるのと同じ仕組みです。';
+        //摩擦・空気抵抗による自然原則の計算
+        carSpeed *=0.98;
+        //意味ーアクセルやブレーキの入力がない場合でも車両を停止させるため、現在の速度
+        //(carSpeed)に対して、毎フレーム0.98を乗算し、速度を現在の2％ずつ減衰させます
+        //使い方ー変数名 *=乗算値とかき、末尾に；（セミコロン）を記述
+        //どんな時に使うのかー物理シュミレーションにおいてキーを離した際に物体が等速直線運動で無限に
+        //進み続けるのを防ぎ、自然に原則して停止させたい時に使用する
 
-      // 特定の重要キーワードが入力された場合、中身をさらに超詳細版に切り替える
-      String lowerTarget = target.toLowerCase();
-      if (lowerTarget == 'state' || target == '状態管理') {
-        definition = '意味（動的データ保持）：画面のボタンを押した時などに、リアルタイムで変化するメモリ上の最新データのことです。';
-        role = '役割（再描画トリガー）：データが書き換わったことをシステムに通知し、画面の見た目（UI）を一瞬で自動更新させます。';
-        caution =
-            '注意点（処理のフリーズ）：「setState」を一秒間に何千回も限界を超えて呼び出すと、スマホの処理が追いつかずにフリーズします。';
-        example =
-            '例え話（ゲームのHP）：モンスターから攻撃を受けて「体力数値」が減ったら、画面上の「残りHPバー」も連動して縮む仕組みです。';
-      } else if (lowerTarget == 'api' || target == '非同期処理') {
-        definition = '意味（外部連携窓口）：異なるアプリやサーバー同士が、ルールに従って安全に情報をやり取りするための連絡通路です。';
-        role = '役割（データ中継）：インターネットの向こう側にある巨大なデータベースから、今必要なデータ（猫の画像など）を引っ張ってきます。';
-        caution =
-            'よくある間違い（通信遮断）：機内モードなど電波が完全に切れている状態で呼び出すと、データの取得に失敗してアプリが止まります。';
-        example =
-            '比喩（レストランの注文）：厨房へ直接行くのではなく、店員さん（API）にメニューを伝えて料理（データ）を席まで運んでもらう関係です。';
-      } else if (lowerTarget == 'class' || target == 'クラス') {
-        definition =
-            '意味（設計図の定義）：オブジェクト（データや画面の部品）をプログラムの中で量産するために用意する「独自の型」です。';
-        role =
-            '役割（オブジェクト量産）：同じ構造や機能を持った画面（プロフィール画面や設定画面など）を、1から作らずに何個でも複製できます。';
-        caution =
-            '注意点（実体化の忘れ）：設計図（class）を書いただけでは画面に現れません。必ず「MyApp()」のように呼び出して実体を作る必要があります。';
-        example =
-            '例え話（たい焼きの型）：「たい焼きの型（クラス）」が1つあれば、中にあんこやカスタード（データ）を入れて実体（たい焼き）を大量生産できます。';
-      }
+        //左矢印キー（左旋回）が押されている場合の角度計算
+        if (keysPressed[LogicalKeyboardKey.arrowLeft] == true) {
+          carAngle -= 0.04;
+        }
+        //意味ーキーボードの左矢印キー（arrowLeft)ががtrue(押下中）であれば、車両の進行方位
+        //角(carAngle)から0.04ラジアンを減算し、車両の向きを反時計回りに回転させる
+        //使いかたーif (配列[キーの種類] ==true) {変数 -= 減算値; }の形式で記述
+        //どんなときに使うのかーハンドルを左に切った時の車両の旋回運動を、角度データの更新
+        //の更新として記録するときに使用します
 
-      // ② 四方の枝葉ノード（カード）を配置（中心を囲むように上下左右に展開）
-      _mindMapNodes.add(
-        MindMapNode(
-          title: '① 厳密な意味',
-          description: definition,
-          position: const Offset(30, 40),
-          color: Colors.green,
-        ),
-      );
-      _mindMapNodes.add(
-        MindMapNode(
-          title: '② システム上の役割',
-          description: role,
-          position: const Offset(570, 40),
-          color: Colors.orange,
-        ),
-      );
-      _mindMapNodes.add(
-        MindMapNode(
-          title: '③ 注意点・つまずき処',
-          description: caution,
-          position: const Offset(30, 380),
-          color: Colors.redAccent,
-        ),
-      );
-      _mindMapNodes.add(
-        MindMapNode(
-          title: '④ 理解を深める例え話',
-          description: example,
-          position: const Offset(570, 380),
-          color: Colors.purpleAccent,
-        ),
-      );
-    });
-  }
+        //右矢印キー（右旋回）が押されている場合の角度計算
+        if (keysPressed[LogicalKeyboardKey.arrowRight] == true) {
+          carAngle +=0.04;
+        }
+        //意味ーキーボードの「右矢印キー」(arrowRight)がtrue(押下中）であれば、車両の進行
+        //方位角（carAngle)に0.04ラジアンを加算し、車両の向きを時計回りに回転させる
+        //使い方ーif条件文を用いて加算処理（+=)を行う
+        //どんな時に使うのかーハンドルを右に切った時の車両の旋回運動を角度データの更新として
+        //記録するときに使用
 
-  // コード一括自動解析ロジック
-  void _analyzeCode() {
-    setState(() {
-      String input = _codeController.text.trim();
-      _analysisResult = '';
+        //進行方向と速度に基づいてX座標（水平方向）の移動量計算
+        carX += carSpeed * dart_math.sin(carAngle);
+        //意味ー現在の車両の進行速度(carAngle)から正弦（sin)を算出し、それに現在の速度(carSpeed)
+        //を掛け合わせることで水平方向(左右)の1フレーム当たりの移動量を割り出し、現在のX座標
+        //（carX)に加算する
+        //使い方ー数字パッケージの関数を用いてcarX +=速度 * sin(角度）記述
+        //どんな時に使うのかー2次元平面上を任意の角度（斜め方向など）に前進する物体の水平成分の
+        //移動距離を正確に算出する時に必ず使用
 
-      if (input.contains('import') && input.contains('void main')) {
-        _analysisResult +=
-            '【解析結果①：アプリ起動コード】\n■ import / void main() / runApp()\n・意味：OSから最初に呼ばれる実行スイッチと外部パーツの読み込み構文です。\n------------------------------------------------------------\n\n';
-      }
-      if (input.contains('TextEditingController')) {
-        _analysisResult +=
-            '【解析結果②：変数宣言】\n■ TextEditingController\n・意味：TextFieldの文字を掴んで離さない「データ受信機」です。\n------------------------------------------------------------\n\n';
-      }
 
-      if (_analysisResult.isEmpty) {
-        _analysisResult = '対応するDart構文が検出されませんでした。';
-      }
-    });
-  }
+        //進行方向と速度に基づいたY座標（垂直方向）の移動量計算
+        carY -= carSpeed * dart_math.cos(carAngle);
+        //意味ー現在の車両の進行速度（carAngle)から余波（cos)を算出し、それに現在の速度
+        //(carSpeed)を掛け合わせることで、垂直方向（前後）の1フレームあたりの移動量を割り出し
+        //現在のY座標(carY)から減算（画面上方向へ進めるためマイナス処理)をします
+        //使い方ーcarY -= 速度 * cos(速度);と記述する
+        //どんな時に使うのかー2次元平面上を任意の角度に前進する物体の垂直成分の移動距離を
+        //正確に算出する時に記述する
 
-  // 右側サイドバー：AI検索ロジック
-  void _searchWithAI() {
-    setState(() {
-      String query = _aiQueryController.text.trim();
-      if (query.isEmpty) return;
-      _aiResponseText =
-          '【$_selectedAI からの即時回答】\n「$query」を分解しました。さらに深く知りたい場合は、左の「自動拡張マインドマップ」に入力して可視化を試してください。';
-    });
-  }
+        //↑自然減速と三角関数を使った進行方向への移動量の計算までする
+        //三角関数を使った「進行方向」
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('自動拡張マインドマップ ＆ エンジニア学習総合ダッシュボード'),
-        backgroundColor: Colors.blueAccent,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(icon: Icon(Icons.hub), text: '自動拡張マインドマップ'),
-            Tab(icon: Icon(Icons.analytics), text: 'コード一発可視化'),
-            Tab(icon: Icon(Icons.note_alt), text: 'つど開けるメモ帳'),
-          ],
-        ),
-      ),
-      body: Row(
-        children: [
-          // 左側メインコンテンツエリア（3つの機能タブを切り替え）
-          Expanded(
-            flex: 7,
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                _buildMindMapTab(),
-                _buildCodeAnalysisTab(),
-                _buildMemoTab(),
-              ],
-            ),
-          ),
-          const VerticalDivider(width: 1, thickness: 1, color: Colors.grey),
-          // 右側：縦長常駐AIサイドバー
-          _buildAISidebar(),
-        ],
-      ),
-    );
-  }
-
-  // 【左タブ1】自動拡張マインドマップ画面
-  Widget _buildMindMapTab() {
-    return Column(
-      children: [
-        // キーワード入力セクション
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _mindMapInputController,
-                  decoration: const InputDecoration(
-                    labelText: '調べたいIT専門用語を入力してね（例: State, API, class）',
-                    border: OutlineInputBorder(),
-                  ),
-                  onSubmitted: (val) => _generateMindMap(val),
-                ),
-              ),
-              const SizedBox(width: 12),
-              ElevatedButton.icon(
-                onPressed: () => _generateMindMap(_mindMapInputController.text),
-                icon: const Icon(Icons.blur_circular),
-                label: const Text('マップを自動拡張する'),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 16,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        // マインドマップ描画キャンバス
-        Expanded(
-          child: Container(
-            margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-            decoration: BoxDecoration(
-              color: Colors.grey[100],
-              border: Border.all(color: Colors.grey[300]!),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Stack(
-              children: [
-                // 背景：ノードを繋ぐ「線」を自動描画
-                CustomPaint(
-                  size: Size.infinite,
-                  painter: MindMapLinePainter(nodes: _mindMapNodes),
-                ),
-                // 前景：各ノード（カード）を絶対座標で配置
-                ..._mindMapNodes.map((node) {
-                  return Positioned(
-                    left: node.position.dx,
-                    top: node.position.dy,
-                    child: Container(
-                      width: 250,
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: node.color, width: 2.5),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withAlpha((255 * 0.05).round()),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 6,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: node.color,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: Text(
-                              node.title,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Text(
-                            node.description,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              height: 1.4,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // 【左タブ2】コード解析画面
-  Widget _buildCodeAnalysisTab() {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        // 【修正完了】スペルミスと重複を完全に修正し、クリーンに配置
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Dartコードをコピペ入力してください',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          TextField(
-            controller: _codeController,
-            maxLines: 6,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'ここにコードを貼り付けてね',
-            ),
-          ),
-          const SizedBox(height: 15),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: _analyzeCode,
-              icon: const Icon(Icons.bolt),
-              label: const Text('コード構造を一発可視化する'),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            _analysisResult.isEmpty ? '解析結果がここにでます。' : _analysisResult,
-            style: const TextStyle(fontSize: 14, height: 1.5),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 【左タブ3】メモ帳画面
-  Widget _buildMemoTab() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                '学習メモ（自由に記録・保存可能）',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              Chip(
-                label: Text(_memoSaveStatus),
-                backgroundColor: Colors.amberAccent,
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: TextField(
-              controller: _memoController,
-              maxLines: null,
-              expands: true,
-              textAlignVertical: TextAlignVertical.top,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'マップで学んだことをここにメモして残せます。',
-              ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: () => setState(() => _memoSaveStatus = '保存完了'),
-              icon: const Icon(Icons.save),
-              label: const Text('メモを保存する'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 【右側固定】縦長AIサイドバー
-  Widget _buildAISidebar() {
-    return Container(
-      width: 350,
-      color: Colors.grey[50],
-      padding: const EdgeInsets.all(12.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'つど調べられるAIアシスタント',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => setState(() => _selectedAI = 'Gemini'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedAI == 'Gemini'
-                        ? Colors.purple
-                        : Colors.grey[300],
-                  ),
-                  child: Text(
-                    'Gemini',
-                    style: TextStyle(
-                      color: _selectedAI == 'Gemini'
-                          ? Colors.white
-                          : Colors.black87,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => setState(() => _selectedAI = 'Copilot'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedAI == 'Copilot'
-                        ? Colors.blue[900]
-                        : Colors.grey[300],
-                  ),
-                  child: Text(
-                    'Copilot',
-                    style: TextStyle(
-                      color: _selectedAI == 'Copilot'
-                          ? Colors.white
-                          : Colors.black87,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          TextField(
-            controller: _aiQueryController,
-            decoration: InputDecoration(
-              labelText: '$_selectedAI に技術質問する',
-              border: const OutlineInputBorder(),
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: _searchWithAI,
-              ),
-            ),
-            onSubmitted: (_) => _searchWithAI(),
-          ),
-          const SizedBox(height: 15),
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.grey[300]!),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: SingleChildScrollView(
-                child: Text(
-                  _aiResponseText,
-                  style: const TextStyle(fontSize: 13, height: 1.4),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+});
+  });
 }
 
-// マインドマップの「線」を引くレンダリングクラス
-class MindMapLinePainter extends CustomPainter {
-  final List<MindMapNode> nodes;
-  MindMapLinePainter({required this.nodes});
+//void iniState() {...}の閉じかっこのすぐ下から、このシュミレーター画面の具体的なレイアウト
+//を構成するbuild関数（画面描画処理）をかく
+//キーボードの入力をページ全体でとりこぼさず受け付けるための構造(keyboadListener)と画面の
+//土台を建築する
 
+@override
+Widget build (BuildContext context) {
+  //意味ーFlutterのシステムに対し、「車のデータ(座標や速度)が更新されるたびに、この関数を
+  //実行して画面の見た目を新しく組み立てなさいと命令するStateクラス固有の画面描画を定義し
+  //はじます
+  //どんな時に使うのかー画面の背景色、ボタンの配置、車や道路の描画など、ユーザーの目に触れる
+  //すべての表示要素を確定させる時に必ず使用
+
+
+  //画面全体の骨組み(Scaffold)の呼び出し
+  return Scaffold(
+    backgroundColor: Colors.grey[900],
+    //意味ースマートフォンアプリの一般的な画面構成(土台)を提供するScaffold部品を出力(return)
+    //同時にシュミレーターの背景色(backgroundColor)を暗いグレー(Colors.grey[900])に
+    //指定します
+
+    //使い方-return Scaffold(と記述し、内部に設定項目（プロパティ）を並べていきます
+    //どんな時に使うのかー新しい画面の中身（背景やレイアウト)を1から構築する際の、最も外側の
+    //土台として必ず使用する
+
+    //キーボードの物理入力を捕捉する監視部品の設置（開始）
+    body: KeyboardListener(
+      focusNode: FocusNode(),
+      autofocus: true,
+      //意味ー画面全体の(body)でキーボードの操作を検知するため、KeyboardListener部品を
+      //設置します　入力を受け付けるために必要な窓口(focusNode)を生成し、画面が表示された
+      //瞬間に自動で入力受付状態にする設定（autofocus: true)を行います。
+      //使い方ーbody: KeyboardListener(と記述し、必須設定であるfocusNodeとautofocus
+      //とautofocus:trueを行います
+      //どんな時に使うのかーPCの矢印キーやVキーの押し下げイベントをアプリ側の関数へ仲介、
+      //転送するための入力基盤を作る時に使用
+
+      //入力されたイベントを事前に作った関数へ転送する
+      onKeyEvent: (KeyEvent event) {
+        handleKeyEvent(event);
+      },
+      //意味ーユーザーがキーボードを操作した瞬間に発生するイベント(KeyEvent)を直接受け取り
+      //先ほど、自作したキーボード状態更新関数(handleKeyEvent(event))へそのまま引き渡して
+      //実行（実行トリガー）させます
+      //使い方ーonKeyEvent:(event) {実行したい関数（event); },の形式で記述
+      //どんなんときに使うのかー検知した物理的なキー入力信号をプログラ内のデータ
+      //(keysPressedのtrue/false)に結びつけて処理を連動させたい時に使用
+
+      //画面中央への配置設定とメイン描画エリアの指定（開始）
+      child: Center(
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children:[
+            //意味ーKeyboardListenerの内側（child)に画面の中央(Center)に要素を配置する部品を置く
+            //その中に要素を上から下へ垂直に並べる部品(Column)を配置し、配置位置を中央揃え
+            //(mainAxisAlignment.center)に設定した上で並べる要素の配列(children: [)を開きます
+            //どんな時に使うのかーシュミレーターの画面（道路や車）や操作方法のテキストなどを画面の真ん中に
+            //縦並びで綺麗に配置したい時に使用する
+
+            //現在の車両速度を表示する文字（テキスト）の配置
+            Text(
+              '速度：${carSpeed.toStringAsFixed(1)} km/h',
+              style: const TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            //画面上に「速度:〇〇km/h]という文字列を表示するText部品を配置する
+            //${carSpeed.toStringsFixed(1)という記述によってdouble型の変数carSpeedの
+            //数値を小数点以下第一位までに四捨五入して文字の中に埋め込みます
+            //文字装飾(style)で文字の色を白（Colors.white),で文字の大きさを20ポイント
+            //(fontsize: 20)に指定する
+            //使い方ーText('表示したい文字 ${変数}', style: TextStyle(設定))の形式で
+            //記述し、要素の区切りとして末尾にカンマ、を記述する
+            //どんな時に使うのかーシュミレーターやゲームの画面上に、リアルタイムで変動する現在の
+            //速度数値をユーザーに数値として明示したいときに使用
+
+            const SizedBox(height: 10),
+            //意味ーこの上の単語コードの速度テキストとこの後下に配置する視点テキストが密着する
+            //のを防ぐため、高さ10ピクセル(heigh:10)の不可視の空間（SizeBox)を要素の間に配置
+            //使いかたーconst SizedBox(height: 数値),の形式で記述
+            //どんな時に使うのかー画面内のレイアウトにおいて、縦並びまたは横並びにした部品と部品の
+            //間に正確な幅の隙間(ディスタンス)を作りたい時に使用
+
+            //現在の運転視点状態を表示する文字の配置
+            Text('視点: ${isFirstPerson ? "一人称(Vキーで切替)":"三人称 (Vキーで切替)"}',
+            style: const TextStyle(color: Colors.white70, fontSize:16),
+            ),
+            //意味ー現在のカメラの描画モードを画面に文字列として出力するText部品です
+            //文字列の内部に記述された${isFirstPerson ?"一人称 (Vキーで切替）":三人称
+            //(Vキーで切替)"}',という条件式（三項演算子)により、あなたが以前に定義した以下のコード
+            //どんな時に使うのかー現在の設定フラグ(オン/オフ、または2つのモード)がどちらかの状態に
+            //あるかを画面上に文字で指示したい時に使用
+
+            //画面上のコンテンツとこの後作るシュミレーター本体の間の余白
+            const SizedBox(height:20),
+            //意味ー今、配置したテキストメーターエリアとこの後直下に配置する「車と道路が動く
+            //メインのシュミレーター描画エリア(グラフィック画面)が衝突しないよう、高さ20ピクセル
+            //の垂直余白を設置します
+            //どんな時に使うのかーテキスト情報と動的な描画キャンパスという「異なる役割を持つUI
+            //ブロック]の境界を明確にするためのスペースを確保する時に使用
+
+
+            //車両と道路を描画するためのキャンバス部品(CustomPaint)の配置（開始）
+            CustomPaint(size: const Size(400,400),
+            //意味ー直線や四角形、円などの図形を自由に手書きで描画するためのグラフィックキャンバス
+            //部品(CustomPaint)を配置する。最初の設定項目（プロパティ)として、キャンバスの描画サイズ
+            //(size)を横幅400ピクセル、縦幅400ピクセル(const Size(400, 400)の正方形の領域に指定
+            //使いかたーCustomPaint(size: const Size(横幅, 縦幅),と記述し、カンマ(,)で区切る
+            //どんな時に使うのかーFlutterの標準的なUI部品（ボタンやテキストなど)の組み合わせだけでは
+            //表現できない、ゲーム画面、独自のグラフ、物理シュミレーターの描画領域などの自由なグラフィック
+            //画面を特定のサイズで構築したいときに必ず使用
+
+            //描画実行クラス(painter)の指定とパラメータの引き渡し
+            painter: _SimulationPainter(carX: carX, 
+            carY: carY, 
+            carAngle: carAngle,
+            isFirstPerson:isFirstPerson, 
+            ), 
+            ),
+            //意味ーCustomPaint部品のpainter という設定項目に対してこの後ファイルの最下部で自作する
+            //具象描画クラスSimulationPainterをインスタンス化して割り当てる。その際、
+            //これまでの処理で計算・管理してきた以下の5つの状態変数を描画クラス側の引数(プロパティ)へ
+            //と直接引き渡す
+            //double carX(水平方向の位置)
+            //double carY(垂直方向の位置)
+            //double carAngle(進行速度)
+            //bool isFirstPerson (視点フラグ)
+            //最後の),と),によって、SimulationPainterとCustonmPaintの記述を閉じる
+            //どんな時に使うのかー計算を担当する領域(Stateクラス)から実際の動画を担当する領域(Painterクラス)
+            //へ現在変化している最新の座標や角度データを同期・転送して画面を正確に描画させたいた時に
+            //必ず使用
+
+          //画面レイアウトの終了とStateクラスの完全閉鎖(閉じかっこ群の記述)
+          //ここまでに開いてきた、chidren: [やColumn、Scafffold、そして一番外側のクラス_Simukations
+          //ScreenStateのすべてのブロックを順番に閉じるため、直下に記述
+          ],
+          //'children:['(縦並びの配列)を閉じます'
+        ),
+        //),'Column('(垂直配置部品)を閉じます
+      ),
+      //),'Center('(中央揃え部品)を閉じます
+    ),
+    //),'KeyboardListener('(キーボード監視部品)を閉じます
+  );
+  //'return Scafffold(' (画面全体の骨組み)の処理を閉じます'
+}
+//'Widget build(BuildContext context) {'(画面組み立て関数)を終了します
+}
+//'class _SimulationScreenState extends State<SimulationScreen> {'データ計算を行う
+//実務部屋のクラス全体)を完全に終了します
+
+
+//描画実行クラス(SimulationPainter)の定義と受け取り変数の宣言
+class SimulationPainter extends CustomPainter {
+  final double carX;
+  final double carY;
+  final double carAngle;
+  final double carSpeed;
+  final bool isFirstPerson;
+  //意味ーFlutterのグラフィック描画システムであるCustomPainterクラスを継承(extends)した、
+  //独自の描画クラスSimulationPainterの定義を開始する
+  //内部には外部から引き渡されていくる現在のデータ(carX.carY.carAngle.carspeed..isFirstPerson)
+  //を一時的に保持するための書き換え不可能な読み取り専用変数(final 変数)
+  //使いかたーclass クラス名　extends CustomPainter {と記述し、内部にfinal 型　変数名；を
+  //並べます
+  //どんな時に使うのかーキャンパス上に図形を描画する際、現在計算されている最新の座標や速度、視点の
+  //状態の数値を描画ロジックの内部で利用できるように、データをクラス内に受け取って固定したい時に
+  //必ず使用
+  //注意点ーこの時点であなたが最初の方で直面していたエラーMissing concrete implementation..
+  //このSimulationPainter クラスの場所に移動して表示されますこの後に必須の描画関数(paint)を
+  //記述していくことで完全に消滅する使用通りのエラー
+
+  //外部からのデータを受けとって変数に格納するコンストラクタの定義
+  SimulationPainter({
+    required this.carX,
+    required this.carY,
+    required this.carAngle,
+    required this.carSpeed,
+    required this.isFirstPerson,
+  });
+  //painter: SimulationPainter(
+  //carX: carX,
+  //carY: carY,
+  //carAngle: carAngle,
+ //isFirstPerson: isFirstPerson,
+//),
+//),
+//上記の呼び出し元から送られてきた各データを下記コードで宣言したクラス内部の同名の変数に直接導入
+//して適合させるための初期化変数(コンストラクタ)を定義する
+//class SimulationPainter extends CustomPainter {
+  //final double carX;
+  //final double carY;
+  //final double carAngle;
+  //final double carSpeed;
+  //final bool isFirstPerson;
+  //required キーワードを付与することでこれらのデータが欠損した状態での呼びだしをコンパイルエラーと
+  //として強制的に防ぐ
+  //使い方ークラス名({required this.変数名, ...});の形式で記述し、末尾に
+  //セミコロン(;)をつける
+  //どんな時に使うのかーオブジェクト思考プログラミングにおいてクラスを
+  //新しく生成(インスタンス化)する瞬間に必須となる初期データを安全かつ
+  //正確に流し込んでセットさせたい時に必ず使用
+
+
+  //具体的な描画処理を行うメイン関数(paint)の定義(開始)
   @override
   void paint(Canvas canvas, Size size) {
-    if (nodes.length < 2) return;
+    //意味ーCustomPainterクラスに標準搭載されている、グラフィック描画を
+    //行うための核心関数paintをoverride(再定義)する
+    //引数として描画命令を出すための対象オブジェクト(Canvas canvas)と
+    //CustomPaint(size: const Size(400, 400),のコードで設定した
+    //400x400ピクセルの描画サイズ情報(Size size)の2つを受け取り、内部処理を開始
+    //使い方ー@override void paint(Canvas canvas, Size size) { と記述し{を開く
+    //どんな時に使うのかーキャンバスの領域に対して背景を塗りつぶしたり、直線(道路)を弾いたり
+    //短形(車両)を描画を描画したりする具体的な描画命令(レンダリングコード)
+    //を記述する領域を作成するときに必ず使用
+    
+    //図形を描画するための[筆(Paintオブジェクト)の」生成と初期設定
+    final Paint paintObj = Paint()
+    ..style = PaintingStyle.fill
+    ..isAntiAlias = true;
+    //意味ーキャンバスに色を塗ったり線をひいたりするための設定を保持するための
+    //筆(Paint　オブジェクト)を生成し、変数paint0bjに格納する
+    //Dartの連鎖日記(...)を使用し、図形の内側を塗りつぶす設定
+    //(PaintingStyle.fill)と斜め線のギザギザを目立たなくする滑らか滑らか
+    //化処理(antiAlias = true)を同時に実行
+    //使い方-final Paint 変数名 =Paint()..設定項目=値の形式で記述し、末尾にセミコロン(;)
+    //を記述
+    //どんな時につかうのかーグラフィック描画システムにおいて、これから画面に
+    //描く四角形や円が「どのような塗り方、どのような線の滑らかさを持つか」
+    //の特性を事前に定義するときに使用
 
-    // 中心ノード（インデックス0番）の中心位置を計算
-    final centerNode = nodes[0];
-    final Offset centerPoint = Offset(
-      centerNode.position.dx + 125, // カード横幅の半分
-      centerNode.position.dy + 40, // カード縦幅のおおよその半分
-    );
+    //キャンバス全体の背景を黒色で塗りつぶす処理
+    paintObj.color=Colors.black;
+    canvas.drawRect(Rect.fromLTWH (0,0, size.width,size.height),paintObj);
+    //このコードの最初の部分　paint0bjのインク色を黒(Colors.black)に指定します
+    //400x400ピクセルのキャンパスの左上端(X=0,Y=0)から
+    //右下端(size.width=400,size.height =400)までの全領域をカバーする
+    //長方形の範囲(Rect)を作成し、黒い筆で一気に塗りつぶします
+    //(背景を真っ黒にリセットする処理)
+    //使い方ーcanvas.drawRect(Rectの範囲,筆オブジェクト);と記述
+    //どんな時に使うのかー毎フレーム画面を更新する際、前のフレームに描画された
+    //古い車や道路の残像を完全に消去し、画面全体をクリアな一色の背景色でリセット
+    // (初期化)するときに使用
 
-    final paint = Paint()
-      ..color = Colors.grey[400]!
-      ..strokeWidth = 2.0
-      ..style = PaintingStyle.stroke;
+    //キャンバスの描画状態を一時保存する命令
+    canvas.save();
+    //意味ー現在のキャンバスの基本状態(原点が左上端(X=0,Y=0) にあり回転や
+    //移動が一切行われていない標準の状態）をグラフィックシステム内のメモリに
+    //一時的に記憶(セーブ)しています
+    //どんな時に使うのかーこのあと座標系を移動・回転させて図形を描画するが、その
+    //処理を終わった後に元の真っ直ぐな座標軸の状態]に一瞬で復元(リストア)
+    //できるように変更前の状態のバックアップをとる時に必ず使用
 
-    // 中心からすべての枝葉（インデックス1番以降）に向かって線を繋ぐ
-    for (int i = 1; i < nodes.length; i++) {
-      final leafNode = nodes[i];
-      final Offset leafPoint = Offset(
-        leafNode.position.dx + 125,
-        leafNode.position.dy + 40,
-      );
-      canvas.drawLine(centerPoint, leafPoint, paint);
+    //座標の原点(0.0)をキャンバスの中心(200,200)へと移動させる
+    canvas.translate(size.width / 2, size.height / 2);
+    //意味ー標準ではキャンバスの「左上端]に固定されている座標の基準点
+    //(X=0,Y=0)をキャンバスの横幅の半分(size.width / 2 =200ピクセル)
+    //だけ並行移動(translate)させる、これにより、これ以降の描画処理における
+    //X=0,Y=0の位置が「画面の真ん中に」変化する　
+    //使い方ーcanvas.translate(横方向の移動量,縦方向の移動量);の形式で記述
+    //どんな時に使うのかーシュミレーターやゲームにおいて、画面の中央を基準点
+    //として車を配置したり、空間を回転させたりする幾何学計算んを大幅に単純化
+    //・適合させたい時に使用
+
+    //運転視点による描画空間の条件分岐(開始)
+    if (isFirstPerson) {
+      //意味ーあなたがbool isFirstPerson = false;で定義し、
+      //下記コードのコンストラクタ経由でこのクラスに引き渡された真偽値関数
+      //isFirstPersonがtrue(一人称視点モード)であるかどうかの条件分岐(if文)
+      //開始する
+      //SimulationPainter({
+      //required this.SimulationPainter({
+    //required this.carX,
+    //required this.carY,
+    //required this.carAngle,
+    //required this.carSpeed,
+    //required this.isFirstPerson,
+    //});
+    //使い方ーif (FirstPerson) {と記述し{を開く
+    //どんな時に使うのかー同一の座標データ(車の位置や角度)を用いながら、
+    //ユーザーの選択によって、ドライバーの目線として画面を描画するか、
+    //あるいは、「上空からの目線」として描画するか、描画ロジックそのものを完全
+    //に切り替える時に使用する
+
+    //一人称視点ー自転車の進行速度に合わせた空間全体の逆回転
+    canvas.rotate(-carAngle);
+    //意味ー一人称視点(運転席からの景色)を表現するため、キャンバス全体を
+    //「現在の車の進行角度(carAngle)のマイナス(逆方向)に回転(route)させる
+    //使いかたーcanvas.rotate(-角度の変数)と記述し、セミコロン；を置く
+    //どんな時使うのかードライバー視点のゲームでは、車が右に曲がると周囲の
+    //景色が左側に回転するという物理現象が起きる。カメラを固定したまま世界
+    //全体を逆向きに回すことで、運転席からみたリアルな旋回景色をシュミレート
+    //する時に必ず使用
+
+    //一人称視点ー自車の位置に合わせた空間全体の逆平行移動
+    canvas.translate(-carX, -carY);
+    //意味ー同じく運転席からの景色にするために、キャンバス全体を現在の車の
+    //X座標(carX)およびY座標(carY)のマイナス（逆方向)に平行移動(translate)
+    //させます
+    //使い方-canvas.translate(-X変数, -Y変数);と記述
+    //どんな時に使うのかー車が前に進むと「周囲の景色が後ろに吹き飛んでいく]
+    //という物理現象を再現するー自車を画面中央(原点)に固定し、世界(道路)を
+    //逆方向に引っ張ることで、ドライバーが移動している感覚を発生させるために使用
+
+    //三人称視点への切り替え分岐(else文の開始)
+    } else {
+      //意味ーif (isFirstPerson) {がtrueの条件が成立しなかった場合、
+      //false (三人称視点・俯瞰モード)の時の描画処理を記述するための分岐
+      //ブロック(else)を開く
+      //書く順番ーcanvas.translate(-carX, -carY);の処理が終わったすぐ下に
+      //一人称視点ブロックを閉じるのと同時に記述
+      //どんな時に使うかー2つのモード(一人称か三人称か）のいずれか一方のみを
+      //確実に実行させたい時のもう片方の処理領域を処理領域を定義するときに使用
+
+      //三人称視点ー自車を追従するカメラの平行移動処理と分岐の終了
+      canvas.translate(-carX, -carY + 100);
     }
-  }
+    //意味ー三人称視点(車を後ろから追いかけるカメラ)を表現するためのキャンパス
+    //全体を車の位置(-carX, -carY)から、さらに手前方向に100ピクセルずらした
+    //位置(+100)へ平行移動させる、その後、}でelseのブロックを閉じる
 
+    //道路(アスファルト路面)のベースとなる巨大な長方形の描画
+    paintObj.color = Colors.grey[800]!;
+    canvas.drawRect(Rect.fromLTWH(-150, -2000, 300, 4000), paintObj);
+    //意味ー1行目でfinal Paint paintObj = Paint()
+      //..style = PaintingStyle.fill
+      //..antiAlias = true;で用意した筆(paint0bj)のインク色をアスファルト
+      //を模した濃いグレー(Colors.grey[800]に変更する
+      //2行目で横幅300ピクセル(左に-150から右に150まで)、縦幅4000ピクセル
+      //(前方に-2000から後方に2000まで)に及ぶ非常に長い直線道路の路面(Rect)
+      //を作成し、キャンバスに描画します
+      //使い方ーpaint0bj.color= 色; で筆の色を変え、convas.drawRect(Rectの範囲,筆);で
+      //長方形を描く
+      //どんな時につかうのかーシュミレーター空間の中に、車が走行するための
+      //固定されたコース(道路の土台)を視覚的に発生させたい時に使用
+
+      //道路の左端の境界を示す[白線(ソリッドライン]の描画
+      paintObj.color =Colors.white;
+      canvas.drawRect(Rect.fromLTWH(-145, -2000, 5, 4000), paintObj);
+      //意味ー筆の色を白(Colors.white)に変更します
+      //道路の左端(X=145の位置)に太さ5ピクセル、長さ4000ピクセルの細長い長方形
+      //配置して塗りつぶし、道路の左側の白線を描画します
+      //使い方-X座標の位置と横幅(5ピクセル)を白線専用に調整してdrawRect命令を出す
+      //どんな時に使うのかー走行空間の限界(路肩の境界線)を明確に描画し、ドライバーが道路の幅員を
+      //を正しく認識できるようにするために使う
+
+      //道路の右端の境界を示す「白線(ソリッドライン)の描画
+      canvas.drawRect(Rect.fromLTWH(140, -2000, 5, 4000), paintObj);
+      //意味ー筆の色は白のまま、今度は道路の右端(X=140の位置)に、太さ5ピクセル
+      //長さ4000ピクセルの細長い白線(長方形)を描画します
+      //使いかたー左側の白線と同じ太さと長さの範囲(Rect)を右側の座標を指定して描画する
+      //どんな時に使うのかー左側の白線と対になる右側の車線境界を発生させ、
+      //2車線分の道路の道幅を確定させるために使用
+
+      //道路中央の「波線(センターラインの点線)を描画するループ処理(開始)
+      for (double i =-2000; i < 2000; i += 80) {
+        //意味ー道路の最奥(Y=-2000ピクセル)から手前(Y=2000ピクセル)までの
+        //範囲にかけてカウンタ変数iの値を1周期ごと80ピクセルずつ加算(i +=80)
+        //しながら波かっこ({)の内部にある描画処理を内部も繰り返し(ループ)実行します
+        //使い方ーfor (初期値; 条件値; 増減式) {と記述し、波かっこ({)を開きます
+        //どんな時に使うのかーグラフィック処理において等間隔に並ぶ道路の点線や等間隔
+        //の目盛りなどを手動で何枚もコードを書く代わりに、プログラムによる自動計算で
+        //連続配置したい時に必ず使用
+
+        //ループ処理による個々のセンターライン(点線1本分)の具体的な描画
+        canvas.drawRect(Rect.fromLTWH(-2, i , 4, 40),paintObj);}
+        //意味ー道路の真ん中(X=-2の位置)に、太さ4ピクセル(-2から横幅4ピクセル
+        //分)、長さ40ピクセル(縦幅40)の白い長方形を描画する
+        //縦位置(Y座標)にはfor (double i = -2000; i < 2000; i += 80) {(上記のコード)
+        //のループ文から毎ステップ渡されてくる最新の数値i　が代入される、これにより
+        //40ピクセルの白線を描いては40ピクセルの隙間を空ける、という点線が
+        //道路全体に自動生成される。最後の}でfor ループを終了します
+        //使い方ー縦方向の座標引数にループ変数i を指定してdrawRectを行い、
+        //次の行で波かっこ}を閉じる
+        //どんな時に使うのかーfor (double i = -2000; i < 2000; i += 80) {で
+        //設定した繰り返しのルールにしたがって、具体的な図形(今回は白線のパーツ)
+        //をキャンバスの異なる座標へ連続してスタンプのように配置するときに　使用
+
+
+        //座標系の回転・平行移動状態の解除(三人称視点用の位置復元)
+        if(!isFirstPerson) {
+          canvas.rotate(carAngle);
+        }
+        //意味ー現在選択されているモードが一人称視点「ではない」場合
+        //(!isFirstPerson、三人称視点の場合),これまでに車の動きに合わせ
+        //て傾いていた空間の回転軸を、現在の車の角度(carAngle)の分だけ
+        //正方向に回転させる、これにより、空間は車の動きに合わせて移動します
+        //が、カメラ自体の向きは常に「真上(真っ直ぐ前進する方向)を向くように
+        //相殺・補正される
+        //使い方ーif(!真偽値変数) { canvas.rotate(角度); }の形式で記述する
+        //どんなときに使うかー三人称視点のカメラワークにおいて、車が旋回したときに
+        //画面全体をぐるぐる回すのではなく、車自身のグラフィックだけを回転させ、
+        //背景の道路は真っ直ぐに維持したいときのカメラの姿勢制御に使用します。
+
+        //車両の正体(赤い長方形)の描画
+        paintObj .color =Colors.red;
+        canvas.drawRect(Rect.fromLTWH(-15, 130, 30, 60,), paintObj);
+        //意味ー筆(pain0bj)のインク色を車両の色である赤(Colors.red)に変更する
+        //2行目で自車の現在位置の原点を中心として、横幅30ピクセル(左に-15から右に15まで)
+        //縦幅60ピクセル(前方に-30から広報に30まで)の長方形(Rect)を作成して塗りつぶし、
+        //車両のボディを描画します
+        //どんな時に使うのかーシュミレーターやゲーム画面において、プレイヤーがキーボードで操作する
+        //対象(自車)のグラフィックを画面上の正確な位置に出現させたい時に必ず使用
+
+        //ブレーキランプ(尾灯)の描画(開始と左側ランプ)
+        paintObj.color =Colors.redAccent;
+        canvas.drawRect(Rect.fromLTWH(-12,26,6,4), paintObj);
+        //意味ー筆の明るい赤(Colors.redAccent)に変更、2行目で車両全体の左後ろの端(X=-12,Y=26の位置)
+        //に横幅6ピクセル、縦幅4ピクセルの小さな長方形を描画し左側のブレーキランプを表現します
+        //どんな時に使うのかー単なる単色の四角形ではなく、車両としての前後認識(どちらが前でどちらが後ろか)を
+        //ユーザーに視覚的にわかりやすく伝えるための装飾として使用
+
+        //ブレーキランプ(右側ランプの描画)
+        canvas.drawRect(Rect.fromLTWH(6, 26, 6, 4), paintObj);
+        //意味ーインク色は明るい赤のまま、今度は車両全体の後ろの端(X=6, Y=26の位置)に、左側と同じサイズの
+        //小さな長方形を描画し、右側のブレーキランプを完成させる
+        //どんな時に使うのかー左右対称にライトを配置することで車両としてのグラフィックの不整合をなくすた
+        //めに使用
+
+        //座標系の復元と描画クラスの必須関数の終了
+        canvas.restore();
+  }
+  //1行目のcanvas.restore();によって、canvas.save();で一時保存していた「原点が左上端にあり、回転も
+  //移動もしていない最初の標準状態をへと座標軸を一瞬で復元(リセット)する,
+  //メイン描画関数void paint(Canvas canvas, Size size) {を完全に終了
+  //どんな時に使うのかーこのフレームでの一連のカスタム描画(移動や回転)がすべて終了したため、システム側の
+  //座標軸を汚さないようにクリーンな初期状態に戻すときおよび関数の区切りを閉じる時に必ず使用
+
+  //画面を毎フレーム更新(再描画）するかどうかをシステムに通知する必須の関数shuldRepaintを記述し、
+  //SimulationPainterクラス全体を完全にしめくくる
+
+  //画面の再描画フラグを決定する必須関数の定義
   @override
-  bool shouldRepaint(covariant MindMapLinePainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
 }
+//意味ーCustomorPainterクラスにおいて実装が義務付けられているshouldRepaint関数を定義する
+//内部でreturn true; (常に真を返す)と記述することで車の座標や角度データが16mm秒ごとに書き変わるたび、
+//システムに対して「古い画面を破棄して、今すぐ新しいグラフィック描き直しなさい」と強制的に要求しつづけます
+//最後の}でSimulation自体を完全に終了する
+//どんな時につかうのかー車両が移動するアニメーションやゲームのように、内部データが常に変化し、画面を
+//絶え間なくリアルタイムにリフレッシュ(秒間60フレーム等で再描画)させたいときに必ず使用
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
